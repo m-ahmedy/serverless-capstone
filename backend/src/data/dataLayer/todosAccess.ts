@@ -63,21 +63,22 @@ export class TodosAccess {
      * Get Todo record by Id
      * @param id Todo Id
      */
-    async getTodoById(id: string): Promise<AWS.DynamoDB.QueryOutput> {
+    async getTodoById(todoId: string): Promise<AWS.DynamoDB.QueryOutput> {
         return await this.docClient.query({
             TableName: this.todosTable,
             KeyConditionExpression: 'todoId = :todoId',
             ExpressionAttributeValues: {
-                ':todoId': id
+                ':todoId': todoId,
             }
         }).promise()
     }
 
-    async updateTodoImageFlag(todoId: string) {
+    async updateTodoImageFlag(todoId: string, userId: string) {
         await this.docClient.update({
             TableName: this.todosTable,
             Key: {
-                'todoId': todoId
+                'todoId': todoId,
+                'userId': userId
             },
             UpdateExpression: 'set  hasImage = :t',
             ExpressionAttributeValues: {
@@ -91,11 +92,12 @@ export class TodosAccess {
      * @param updatedTodo Update field details
      * @param todoId Todo Id
      */
-    async updateTodo(updatedTodo: UpdateTodoRequest, todoId: string) {
+    async updateTodo(updatedTodo: UpdateTodoRequest, todoId: string, userId: string) {
         await this.docClient.update({
             TableName: this.todosTable,
             Key: {
-                'todoId': todoId
+                'todoId': todoId,
+                'userId': userId
             },
             UpdateExpression: 'set #namefield = :n, dueDate = :d, done = :done',
             ExpressionAttributeValues: {
@@ -114,11 +116,12 @@ export class TodosAccess {
      * Delete Todo record
      * @param todoId Todo Id
      */
-    async deleteTodoById(todoId: string) {
+    async deleteTodoByKey(todoId: string, userId: string) {
         const param = {
             TableName: this.todosTable,
             Key: {
-                'todoId': todoId
+                'todoId': todoId,
+                'userId': userId
             }
         }
         await this.docClient.delete(param).promise()

@@ -51,7 +51,7 @@ export async function deleteTodoItem(
     logger.info(`User ${userId} deleting todo ${todoId}`)
 
     // Delete todo record
-    await todosAccess.deleteTodoById(todoId)
+    await todosAccess.deleteTodoByKey(todoId, userId)
 }
 
 export async function generateUploadUrl(
@@ -132,5 +132,5 @@ export async function updateTodoItem(
     logger.info(`User ${userId} updating todo ${todoId} to be ${updateTodoRequest}`)
 
     // update todo 
-    await todosAccess.updateTodo(updateTodoRequest, todoId)
+    await todosAccess.updateTodo(updateTodoRequest, todoId, userId)
 }

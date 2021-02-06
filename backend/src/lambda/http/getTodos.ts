@@ -33,7 +33,7 @@ const main: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promis
         const { message, statusCode } = e as HttpError
         return {
             statusCode,
-            body: JSON.stringify({ e, }),
+            body: JSON.stringify({ message, }),
         }
     }
 }

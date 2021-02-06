@@ -5,7 +5,7 @@ plugins:
   - serverless-iam-roles-per-function
 
 package:
-  # individually: true
+  individually: true
 
 custom:
   webpack:
@@ -169,6 +169,8 @@ resources:
         KeySchema:
           - AttributeName: todoId
             KeyType: HASH
+          - AttributeName: userId
+            KeyType: RANGE
         GlobalSecondaryIndexes:
           - IndexName: ${self:provider.environment.USER_ID_INDEX}
             KeySchema:
